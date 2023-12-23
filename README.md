@@ -4,6 +4,8 @@ A simple Discord bot that provides a message action to generate link previews fo
 
 Why? Because for some reason it's hit-or-miss whether or not Discord actually generates link previews for Threads, which is frustrating.
 
+<img src="demo.gif">
+
 ## Config
 
 Create a file named `discord-threads-link-expander-config.toml` next to the binary (or at the root of the repo if you're doing `cargo run`). Add your bot token like so:

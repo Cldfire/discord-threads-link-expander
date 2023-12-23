@@ -150,6 +150,9 @@ fn fix_twitter_links_in_place(
             continue;
         }
 
+        // Strip query params, muahahahaha
+        parsed_url.set_query(None);
+
         new_message_content.replace_range(link_info.start()..link_info.end(), parsed_url.as_str());
     }
     new_message_content
@@ -163,9 +166,9 @@ mod tests {
     fn test_fix_twitter_links_in_place() {
         let original_message = r#"
             This is a message that contains a twitter link (https://twitter.com/test/test), a
-            x.com link (https://x.com/test/test), a mobile.twitter.com link
-            (https://mobile.twitter.com/test/test), a mobile.x.com link
-            (https://mobile.x.com/test/test), an unrelated link
+            x.com link (https://x.com/test/test?s=32&t=TcMWABOBcTGBg043O95RnL),
+            a mobile.twitter.com link (https://mobile.twitter.com/test/test),
+            a mobile.x.com link (https://mobile.x.com/test/test), an unrelated link
             (https://otherwebsite/test/test), and a weird twitter link
             (https://weird.link.twitter.com/test/test).
         "#;
@@ -176,9 +179,9 @@ mod tests {
             new_message,
             r#"
             This is a message that contains a twitter link (https://fxtwitter.com/test/test), a
-            x.com link (https://fixupx.com/test/test), a mobile.twitter.com link
-            (https://fxtwitter.com/test/test), a mobile.x.com link
-            (https://fixupx.com/test/test), an unrelated link
+            x.com link (https://fixupx.com/test/test),
+            a mobile.twitter.com link (https://fxtwitter.com/test/test),
+            a mobile.x.com link (https://fixupx.com/test/test), an unrelated link
             (https://otherwebsite/test/test), and a weird twitter link
             (https://weird.link.twitter.com/test/test).
         "#

@@ -79,13 +79,13 @@ pub async fn handle_expand_threads_link(
 }
 
 fn build_threads_embed_from_html(parsed_html: &scraper::Html) -> Result<Embed, anyhow::Error> {
-    let threads_title = meta_tag_content(&parsed_html, "property", "og:title").unwrap_or_default();
-    let threads_url = meta_tag_content(&parsed_html, "property", "og:url").unwrap_or_default();
+    let threads_title = meta_tag_content(parsed_html, "property", "og:title").unwrap_or_default();
+    let threads_url = meta_tag_content(parsed_html, "property", "og:url").unwrap_or_default();
     let threads_description =
-        meta_tag_content(&parsed_html, "property", "og:description").unwrap_or_default();
-    let threads_image = meta_tag_content(&parsed_html, "property", "og:image").unwrap_or_default();
+        meta_tag_content(parsed_html, "property", "og:description").unwrap_or_default();
+    let threads_image = meta_tag_content(parsed_html, "property", "og:image").unwrap_or_default();
     let threads_image_type =
-        meta_tag_content(&parsed_html, "name", "twitter:card").unwrap_or_default();
+        meta_tag_content(parsed_html, "name", "twitter:card").unwrap_or_default();
     let image_is_profile_avatar = threads_image_type == "summary";
 
     let embed_builder = EmbedBuilder::new()
@@ -113,12 +113,11 @@ fn parse_threads_links(interaction: &InteractionCreate) -> Vec<Url> {
 
     let links_iterator = resolved_command_data
         .messages
-        .iter()
-        .map(|(_, m)| m)
+        .values()
         .map(|m| &m.content)
         .flat_map(|content| {
             finder
-                .links(&content)
+                .links(content)
                 .filter(|l| l.kind() == &LinkKind::Url)
                 .filter_map(|l| Url::parse(l.as_str()).ok())
                 .filter(|l| {

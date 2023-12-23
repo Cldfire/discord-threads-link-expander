@@ -84,15 +84,16 @@ fn message_content_from_interaction(interaction: &InteractionCreate) -> Option<&
     };
 
     match command_data.kind {
-        CommandType::ChatInput => command_data
-            .options
-            .iter()
-            .next()
-            .map(|opt| &opt.value)
-            .and_then(|value| match value {
-                CommandOptionValue::String(value) => Some(value.as_str()),
-                _ => None,
-            }),
+        CommandType::ChatInput => {
+            command_data
+                .options
+                .first()
+                .map(|opt| &opt.value)
+                .and_then(|value| match value {
+                    CommandOptionValue::String(value) => Some(value.as_str()),
+                    _ => None,
+                })
+        }
         CommandType::Message => command_data
             .resolved
             .as_ref()
@@ -145,7 +146,7 @@ fn fix_twitter_links_in_place(
             "mobile.x.com" => "fixupx.com",
             _ => "fxtwitter.com",
         };
-        if let Err(_) = parsed_url.set_host(Some(new_host)) {
+        if parsed_url.set_host(Some(new_host)).is_err() {
             continue;
         }
 

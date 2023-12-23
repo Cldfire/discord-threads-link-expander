@@ -1,5 +1,8 @@
 # discord-threads-link-expander
 
+![CI](https://github.com/Cldfire/discord-threads-link-expander/workflows/CI/badge.svg)
+[![dependency status](https://deps.rs/repo/github/cldfire/discord-threads-link-expander/status.svg)](https://deps.rs/repo/github/cldfire/discord-threads-link-expander)
+
 A simple Discord bot that provides a message action to generate link previews for any https://threads.net links in said messages.
 
 Why? Because for some reason it's hit-or-miss whether or not Discord actually generates link previews for Threads, which is frustrating.

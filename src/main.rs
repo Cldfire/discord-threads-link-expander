@@ -122,6 +122,7 @@ async fn handle_interaction(
             .await?;
     }
 
+    // TODO: build embeds for all links, not just the first one
     let first_link = threads_links.first().unwrap();
     let html = web_client
         .get(first_link.as_str())
